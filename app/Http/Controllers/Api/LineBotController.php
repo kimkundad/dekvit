@@ -21,13 +21,9 @@ class LineBotController
         /** @var LINEBot $bot */
         $bot = app('line-bot');
 
-        $signature = $_SERVER['HTTP_'.LINEBot\Constant\HTTPHeader::LINE_SIGNATURE];
-        if (!LINEBot\SignatureValidator::validateSignature($request->getContent(), env('LINE_CHANNEL_SECRET'), $signature)) {
-            logger()->info('recieved from difference line-server');
-            abort(400);
-        }
+    
 
-        $events = $bot->parseEventRequest($request->getContent(), $signature);
+        $events = $bot->parseEventRequest($request->getContent());
 
         /** @var LINEBot\Event\BaseEvent $event */
         foreach ($events as $event) {
